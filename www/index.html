@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
@@ -14,7 +15,8 @@
 -->
     <!-- Required meta tags-->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -32,76 +34,111 @@
     <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body>
+<body class="blu" >
     <div id="app">
         <!-- Statusbar overlay -->
         <div class="statusbar"></div>
-    
+
         <!-- Your main view, should have "view-main" class -->
         <div class="view view-main">
-       
+
             <!-- Top Navbar -->
             <div class="navbar">
                 <div class="navbar-bg"></div>
                 <div class="navbar-inner">
                     <div class="left"><i class="icon icon-back"></i></div>
-                    <div class="title">Page Title</div>
+                    <div class="title">Tienda online</div>
                     <div class="right"><i class="icon icon-forward"></i></div>
                 </div>
             </div>
-    
+
             <!-- Toolbar -->
             <div class="toolbar toolbar-bottom">
                 <div class="toolbar-inner">
-                <!-- Toolbar links -->
-                <a href="#" class="link">Link 1</a>
-                <a href="#" class="link">Link 2</a>
+                    <!-- Toolbar links -->
+                    <a href="#" class="link">Link 1</a>
+                    <a href="#" class="link">Link 2</a>
                 </div>
             </div>
-        
-        <!-- Initial Page, "data-name" contains page name -->
-            <div data-name="index" class="page">
+          
+            <!-- Initial Page, "data-name" contains page name -->
+            <div data-name="index" class=" page">
+          
                 <!-- Scrollable page content -->
                 <div class="page-content">
                     <div class="block">
-                        <p>Page content goes here</p>
-                        <!-- Link to another page -->
-                        <a href="/about/">About app</a>
-
-                        <!-- In data-popup attribute we specify CSS selector of popup we need to open -->
-                        <p><a href="#" data-popup=".my-popup" class="popup-open">Open Popup</a></p>
-
-                        <!-- And somewhere in DOM -->
-                        <div class="popup my-popup">
-                            <div class="view">
-                                <div class="page">
-                                    <div class="navbar">
-                                        <div class="navbar-bg"></div>
-                                        <div class="navbar-inner">
-                                            <div class="title">Popup</div>
-                                            <div class="right">
-                                                <!-- Link to close popup -->
-                                                <a class="link popup-close">Close</a>
-                                            </div>
+                        <div class="list no-hairlines-md">
+                            <ul>
+                                <li class="item-content item-input">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">E-mail</div>
+                                        <div class="item-input-wrap">
+                                            <input type="email" placeholder="Your e-mail" id="rmail" />
+                                            <span class="input-clear-button"></span>
                                         </div>
                                     </div>
-                                    <div class="page-content">
-                                      ...
+                                </li>
+                                <li class="item-content item-input">
+                                    <div class="item-media">
+                                        <i class="icon demo-list-icon"></i>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Password</div>
+                                        <div class="item-input-wrap">
+                                            <input type="password" placeholder="Your password"  />
+                                            <span class="input-clear-button"></span>
+                                        </div>
+                                    </div>
+                                </li>
+
                         </div>
+
+
+                        <a href="/inicio-sesion/"
+                            class="button button-large button-fill button-preloader ${isLoading ? 'button-loading' : ''} color-lightblue"
+                            @click=${load}>
+                            <span class="preloader"></span>
+                            <span>INICIO DE SESION</span>
+                        </a>
+
+                        <p class="row">
+                            <a href="/registrarse/" class="col button button-raised">registrarse</a>
+
+                        </p>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script> -->
+        <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+       <!--  <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-firestore.js"></script> -->
 
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <!--<script type="text/javascript" src="lib/framework7/framework7-bundle.min.js"></script>-->
-    <script type="text/javascript" src="lib/framework7/framework7.js"></script>
-    <script type="text/javascript" src="js/my-app.js"></script>
+        <script>
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAeTnxe7sFNrLnVOR71mQuCt5I7z8b18Z8",
+                authDomain: "curso-app2022.firebaseapp.com",
+                projectId: "curso-app2022",
+                storageBucket: "curso-app2022.appspot.com",
+                messagingSenderId: "113075728756",
+                appId: "1:113075728756:web:9ef25b8595a3709e3abc21"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+        </script>
+
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <!--<script type="text/javascript" src="lib/framework7/framework7-bundle.min.js"></script>-->
+        <script type="text/javascript" src="lib/framework7/framework7.js"></script>
+        <script type="text/javascript" src="js/my-app.js"></script>
 </body>
 
 </html>
