@@ -1,19 +1,56 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
 <div class="page" data-name="inicio-sesion">
-    <div class="navbar">
-        <div class="navbar-inner sliding">
-        <div class="left">
-            <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="ios-only">Back</span>
-            </a>
-        </div>
-        <div class="title">About Framework7</div>
-        </div>
-    </div>
+
     <div class="page-content">
-        <div class="block-title">ingrese en mi app</div>
-        <div class="block block-strong">
+        <div class="block">
+            <div class="list no-hairlines-md">
+                <ul>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title item-label">E-mail</div>
+                            <div class="item-input-wrap">
+                                <input type="email" placeholder="Your e-mail" id="mail" />
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title item-label">Password</div>
+                            <div class="item-input-wrap">
+                                <input type="password" placeholder="Your password" id="password" />
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+
+            </div>
+
+
+            <a href="/index/"
+                class="button button-large button-fill button-preloader ${isLoading ? 'button-loading' : ''} color-lightblue"
+                @click=${load}>
+                <span class="preloader"></span>
+                <span id="bingresa">INICIO DE SESION</span>
+            </a>
+
+            <p class="row">
+                <a href="/registrarse/" class="col button button-raised">registrarse</a>
+
+            </p>
+
+        </div>
+
+
+
         
+
+
     </div>
 </div>
