@@ -123,7 +123,6 @@ function fillCboCategoria() {
         $$(ddl).append('<option value="' + doc.data().Nombre + '">' + doc.data().Nombre + "</option>'");
         console.log('Se agrego categoria 6');
       })
-      return data; // si marca erro quitar toda esta linea
     })
     .catch(error => {
       console.log(error);
