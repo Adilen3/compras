@@ -108,21 +108,29 @@ $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
   });
   fillCboCategoria();
 })
-
+// Lee las categorias de la base de datos y las agrega en input de nombre cboCategorias - selecciona de la base de datos en la coleccion Categorias
 function fillCboCategoria() {
-  var db = firebase.firestore();
+  console.log('Entro a la funcion fillCboCategoria 1');
+  var db = firebase.firestore();// Creamos referencia/instancia a base de datos firestore
+  console.log('Creamos la referencia de la base de datos 2');
   db.collection("Categorias").get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
+    .then(listaCat => {
+      console.log('Se obtuvieron categorias 3');
+      listaCat.forEach(doc => {
+        console.log('Recorrer las categorias 4');
         var ddl = "#cboCategorias";
+        console.log('Agregando categoria 5');
         $$(ddl).append('<option value="' + doc.data().Nombre + '">' + doc.data().Nombre + "</option>'");
+        console.log('Se agrego categoria 6');
       })
-      return data;
+      return data; // si marca erro quitar toda esta linea
     })
     .catch(error => {
       console.log(error);
     })
+    console.log('Se agregaron categorias 7');
 }
+// select <option value="Pantalones">Pantalones</option> /select
 
 
 function readURL(input) {
