@@ -2,7 +2,14 @@
 <div class="page" data-name="inicio-sesion">
 
     <div class="page-content">
+
+
+
+        <div class="login-screen-title">My App</div>
         <div class="block">
+            <p class="row">
+                <button class="col button button-fill open-alert">Alert</button>
+            </p>
             <div class="list no-hairlines-md">
                 <ul>
                     <li class="item-content item-input">
@@ -10,7 +17,7 @@
                             <i class="icon demo-list-icon"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title item-label">E-mail</div>
+                            <div class="item-title item-label">Nombre del usuario</div>
                             <div class="item-input-wrap">
                                 <input type="email" placeholder="Your e-mail" id="mail" />
                                 <span class="input-clear-button"></span>
@@ -33,8 +40,7 @@
             </div>
 
 
-            <a href="/index/"
-                class="button button-large button-fill button-preloader ${isLoading ? 'button-loading' : ''} color-lightblue"
+            <a class="button button-large button-fill button-preloader ${isLoading ? 'button-loading' : ''} color-lightblue"
                 @click=${load}>
                 <span class="preloader"></span>
                 <span id="bingresa">INICIO DE SESION</span>
@@ -49,8 +55,9 @@
 
 
 
-        
+
 
 
     </div>
 </div>
+

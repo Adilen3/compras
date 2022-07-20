@@ -1,19 +1,10 @@
 <div class="page" data-name="productos">
-
     <div class="page-content">
-
-
-        
-     
-
-        
-      <div class="block-title">Agregar Productos </div>
         <div class="list inline-labels no-hairlines-md">
             <ul>
                 <li class="item-content item-input">
-
                     <div class="item-inner">
-                        <div class="item-title item-label">NOMBRE</div>
+                        <div class="item-title item-label">Nombre</div>
                         <div class="item-input-wrap">
                             <input id="nombreProducto" type="text" placeholder="Nombre" />
                             <span class="input-clear-button"></span>
@@ -21,9 +12,18 @@
                     </div>
                 </li>
                 <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Descripcion</div>
+                        <div class="item-input-wrap">
+                            <input id="descripcion" type="text" placeholder="Descripcion" />
+                            <span class="input-clear-button"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="item-content item-input">
 
                     <div class="item-inner">
-                        <div class="item-title item-label">color</div>
+                        <div class="item-title item-label">Color</div>
                         <div class="item-input-wrap">
                             <input id="colorProducto" type="text" placeholder="Color" />
                             <span class="input-clear-button"></span>
@@ -33,51 +33,45 @@
                 <li class="item-content item-input">
 
                     <div class="item-inner">
-                        <div class="item-title item-label">precio</div>
+                        <div class="item-title item-label">Precio</div>
                         <div class="item-input-wrap">
                             <input id="precioProducto" type="email" placeholder="precio" />
                             <span class="input-clear-button"></span>
                         </div>
                     </div>
                 </li>
+                <!--
                 <li class="item-content item-input">
-
                     <div class="item-inner">
-                        <div class="item-title item-label">imagen</div>
+                        <div class="item-title item-label">Imagen</div>
                         <div class="item-input-wrap">
                             <input id="imagenProducto" type="url" placeholder="imagen" />
                             <span class="input-clear-button"></span>
                         </div>
+                        <div>
+                            <input type='file' id="imgInp" />
+                            <img width="200px" height="200px" id="blah" src="#" alt="your image" />
+                        </div>
                     </div>
                 </li>
-
+                -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">CATEGORIAS</div>
+                        </div>
+                        <div class="item-inner">
+                            <select name="cboCategorias" id="cboCategorias">
+                            </select>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
 
 
         <div class="list">
             <ul>
-                <li>
-
-
-                    <div class="item-content">
-                        <div class="item-inner">
-                            <div class="item-title">CATEGORIAS</div>
-                        </div>
-                      
-
-                        <div class="item-inner">
-                            <select name="">
-                                
-                            </select>
-                        </div>
-                        
-                    </div>
-
-
-                    </a>
-                </li>
-
                 <li>
                     <div>
                         <div class="block block-strong">
@@ -90,7 +84,3 @@
 
                     </div>
         </div>
-
-        <script>
-            import { Page, Navbar, List, ListItem } from 'framework7-svelte';
-        </script>

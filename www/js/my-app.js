@@ -85,25 +85,58 @@ $$(document).on('page:init', '.page[data-name="registrarse"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
+  fillProductos();
 })
 
 
 $$(document).on('page:init', '.page[data-name="inicio-sesion"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   $$('#bingresa').on('click', bingresa);
+
 })
 $$(document).on('page:init', '.page[data-name="categorias"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   $$('#btnAgregarCategoria').on('click', agregaCategoria);
-  
+
 })
 
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   $$('#agregarTProducto').on('click', agregarProducto);
-  
+  $$("#imgInp").change(function () {
+    readURL(this);
+  });
+  fillCboCategoria();
 })
 
+function fillCboCategoria() {
+  var db = firebase.firestore();
+  db.collection("Categorias").get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        var ddl = "#cboCategorias";
+        $$(ddl).append('<option value="' + doc.data().Nombre + '">' + doc.data().Nombre + "</option>'");
+      })
+      return data;
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+
+
+function readURL(input) {
+  console.log(input);
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $$('#blah').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
 function bingresa() {
 
@@ -112,13 +145,22 @@ function bingresa() {
   var password = $$('#password').val();
   console.log(password);
 
+  if (password.length <= 5) {
+    alert('La contraseña no contiene una longitud valida');
+    return;
+  }
+
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Signed in
       var user = userCredential.user;
       // ...
+      location.href = "index.html";
     })
     .catch((error) => {
+      alert('Usuario / Contraseña incorrecto');
+      $$('#mail').val('');
+      $$('#password').val('');
       var errorCode = error.code;
       var errorMessage = error.message;
     });
@@ -129,23 +171,28 @@ function fnRegistro() {
   //alert('entro');
   var email = $$('#rEmail').val();
   var password = $$('#rPassword').val();
+  if (email.length > 0 && password.length > 0) {
 
-  console.log(email);
-  console.log(password);
+    console.log(email);
+    console.log(password);
 
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      // ...
-      console.log('usuario creado');
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode + "--" + errorMessage);
-      // ..
-    });
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        // ...
+        console.log('usuario creado');
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + "--" + errorMessage);
+        // ..
+      });
+  }
+  else {
+    alert('Debes ingresar Email y contraseña valido');
+  }
 }
 
 function Regresar() {
@@ -156,9 +203,10 @@ function agregaCategoria() {
   var nombreCategoria = $$("#acategorias").val();
   var db = firebase.firestore();
   var categoria = {
-    nombre: nombreCategoria
+    CategoriaId: "3",
+    Nombre: nombreCategoria
   };
-  db.collection("categorias").add(categoria)
+  db.collection("Categorias").add(categoria)
     .then(function (docRef) { // .then((docRef) => {
       console.log("OK! Con el ID: " + docRef.id);
     })
@@ -169,31 +217,43 @@ function agregaCategoria() {
 }
 
 function agregarProducto() {
-  console.log("inicio agregar producto");
+  var categoria = $$('select[name=cboCategorias]').val();
   var nombreProducto = $$('#nombreProducto').val();
   var colorProducto = $$('#colorProducto').val();
   var precioProducto = $$('#precioProducto').val();
-  var imagenProducto = $$('#imagenProducto').val();
-  console.log('Datos');
-  console.log(nombreProducto);
-  console.log(colorProducto);
-  console.log(precioProducto);
-  console.log(imagenProducto);
+  var descripcion = $$('#descripcion').val();
 
   var db = firebase.firestore();
   var producto = {
-    color: colorProducto,
-    nombre: nombreProducto,
-    precio: precioProducto,
-    imagen: imagenProducto
+    Nombre: $$('#nombreProducto').val(),
+    Descripcion: $$('#descripcion').val(),
+    Color: $$('#colorProducto').val(),
+    Precio: $$('#precioProducto').val(),
+    Imagen: "",
+    Categoria: $$('select[name=cboCategorias]').val()
   }
   db.collection("MisProductos").add(producto)
-  .then(function (docRef) { // .then((docRef) => {
-    console.log("OK! Con el ID: " + docRef.id);
-  })
-  .catch(function (error) { // .catch((error) => {
-    console.log("Error: " + error);
-  })
-console.log('Agregando categorias');
+    .then(function (docRef) { // .then((docRef) => {
+      console.log("OK! Con el ID: " + docRef.id);
+    })
+    .catch(function (error) { // .catch((error) => {
+      console.log("Error: " + error);
+    })
+  console.log('Agregando categorias');
 
+}
+
+
+function fillProductos() {
+  console.log('Listando productos');
+  var db = firebase.firestore();
+  db.collection("MisProductos").get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);
+      });
+    })
+    .catch(function (error) { // .catch((error) => {
+      console.log("Error: " + error);
+    })
 }
