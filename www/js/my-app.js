@@ -20,6 +20,7 @@ var app = new Framework7({
     { path: '/index/', url: 'index.html', },
     { path: '/categorias/', url: 'categorias.html', },
     { path: '/productos/', url: 'productos.html', },
+    { path: '/productos-muestra/', url: 'productos-muestra.html', },
     { path: '/categoriaProductos/', url: 'categoriaProductos.html', },
   ]
   // ... other parameters
@@ -109,6 +110,9 @@ $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
   });
   fillCboCategoria();
 })
+$$(document).on('page:init', '.page[data-name="categoriaProductos"]', function (e) {
+  listarCategorias();
+})
 // Lee las categorias de la base de datos y las agrega en input de nombre cboCategorias - selecciona de la base de datos en la coleccion Categorias
 function fillCboCategoria() {
   console.log('Entro a la funcion fillCboCategoria 1');
@@ -128,7 +132,7 @@ function fillCboCategoria() {
     .catch(error => {
       console.log(error);
     })
-    console.log('Se agregaron categorias 7');
+  console.log('Se agregaron categorias 7');
 }
 // select <option value="Pantalones">Pantalones</option> /select
 
@@ -255,10 +259,52 @@ function agregarProducto() {
 function fillProductos() {
   console.log('Listando productos');
   var db = firebase.firestore();
-  db.collection("MisProductos").get()
+  //db.collection("MisProductos").get()
+  db.collection("MisProductos").where("Categoria", "==", "Blusas").get()
     .then(snapshot => {
       snapshot.forEach(doc => {
         console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);
+      });
+    })
+    .catch(function (error) { // .catch((error) => {
+      console.log("Error: " + error);
+    })
+}
+
+function listarCategorias() {
+  console.log('Entro para listar Categorias');
+  var db = firebase.firestore();
+  db.collection("Categorias").get()
+    .then(listaCat => {
+      listaCat.forEach(doc => {
+        //console.log('Iteracion');
+        //$$('#listarCategorias').append('<div><h5>' + doc.data().Nombre + '</h5></div>');
+        $$('#divCategorias').append('<a href="/productos-muestra/"><div class="row col demo-col-center-content" style="height: 45%"><H3>' + doc.data().Nombre + '</H3><img src="blusa.jpeg" width="50px !important;" height="50px !important" alt=""/></div></a>');
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+// Funciones para mostrar productos por categoria
+$$(document).on('page:init', '.page[data-name="productos-muestra"]', function (e) {
+  MostrarProductosPorCategoria();
+})
+var filtroProducto = 'Vestidos';
+function modificaFiltro(filtro) {
+  filtroProducto = filtro;
+}
+function MostrarProductosPorCategoria() {
+  console.log("filtro:" + filtroProducto);
+  var db = firebase.firestore();
+  //db.collection("MisProductos").get()
+  //db.collection("MisProductos").where("Categoria", "==", filtroProducto).get()
+  db.collection("MisProductos").get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        //console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);
+        var html = '<div><img src="img/notfound.jpg" width="150px" height="150px"><p>' + doc.data().Nombre + ' ' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p></div>';
+        $$('#divProducts').append(html);
       });
     })
     .catch(function (error) { // .catch((error) => {
