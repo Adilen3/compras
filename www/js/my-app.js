@@ -20,7 +20,7 @@ var app = new Framework7({
     { path: '/index/', url: 'index.html', },
     { path: '/categorias/', url: 'categorias.html', },
     { path: '/productos/', url: 'productos.html', },
-    { path: '/productos-muestra/', url: 'productos-muestra.html', },
+    { path: '/productos-muestra/:categoria/', url: 'productos-muestra.html', },
     { path: '/categoriaProductos/', url: 'categoriaProductos.html', },
   ]
   // ... other parameters
@@ -279,7 +279,7 @@ function listarCategorias() {
       listaCat.forEach(doc => {
         //console.log('Iteracion');
         //$$('#listarCategorias').append('<div><h5>' + doc.data().Nombre + '</h5></div>');
-        $$('#divCategorias').append('<a href="/productos-muestra/"><div class="row col demo-col-center-content" style="height: 45%"><H3>' + doc.data().Nombre + '</H3><img src="blusa.jpeg" width="50px !important;" height="50px !important" alt=""/></div></a>');
+        $$('#divCategorias').append('<a href="/productos-muestra/'+doc.data().Nombre +'/"><div class="row col demo-col-center-content" style="height: 45%"><H3>' + doc.data().Nombre + '</H3><img src="blusa.jpeg" width="50px !important;" height="50px !important" alt=""/></div></a>');
       })
     })
     .catch(error => {
@@ -287,24 +287,25 @@ function listarCategorias() {
     })
 }
 // Funciones para mostrar productos por categoria
-$$(document).on('page:init', '.page[data-name="productos-muestra"]', function (e) {
-  MostrarProductosPorCategoria();
+$$(document).on('page:init', '.page[data-name="productos-muestra"]', function (e,page) {
+  MostrarProductosPorCategoria(page.route.params.categoria);
 })
 var filtroProducto = 'Vestidos';
 function modificaFiltro(filtro) {
   filtroProducto = filtro;
 }
-function MostrarProductosPorCategoria() {
+function MostrarProductosPorCategoria(categoria) {
   console.log("filtro:" + filtroProducto);
   var db = firebase.firestore();
   //db.collection("MisProductos").get()
   //db.collection("MisProductos").where("Categoria", "==", filtroProducto).get()
-  db.collection("MisProductos").get()
+  db.collection("MisProductos").where("Categoria","==",categoria).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
         //console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);
-        var html = '<div><img src="img/notfound.jpg" width="150px" height="150px"><p>' + doc.data().Nombre + ' ' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p></div>';
+        var html = doc.data().Imagen + doc.data().Nombre + ' ' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p> <button class="col button button-fill">comprar</button></div>';
         $$('#divProducts').append(html);
+
       });
     })
     .catch(function (error) { // .catch((error) => {

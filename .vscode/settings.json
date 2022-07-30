@@ -1,5 +1,4 @@
 {
     "editor.guides.bracketPairs": "active",
-    "editor.bracketPairColorization.enabled": true,
-    "editor.fontFamily": "Consolas, 'Courier New', monospace"
+    "editor.bracketPairColorization.enabled": true
 }
