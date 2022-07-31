@@ -22,6 +22,8 @@ var app = new Framework7({
     { path: '/productos/', url: 'productos.html', },
     { path: '/productos-muestra/:categoria/', url: 'productos-muestra.html', },
     { path: '/categoriaProductos/', url: 'categoriaProductos.html', },
+    { path: '/muestraDetalleProducto/:id/', url: 'muestraDetalleProducto.html', },
+    { path: '/comprarDetalle/:id/', url: 'comprarDetalle.html', },
   ]
   // ... other parameters
 });
@@ -101,6 +103,7 @@ $$(document).on('page:init', '.page[data-name="categorias"]', function (e) {
   $$('#btnAgregarCategoria').on('click', agregaCategoria);
 
 })
+
 
 $$(document).on('page:init', '.page[data-name="productos"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
@@ -279,7 +282,7 @@ function listarCategorias() {
       listaCat.forEach(doc => {
         //console.log('Iteracion');
         //$$('#listarCategorias').append('<div><h5>' + doc.data().Nombre + '</h5></div>');
-        $$('#divCategorias').append('<a href="/productos-muestra/'+doc.data().Nombre +'/"><div class="row col demo-col-center-content" style="height: 45%"><H3>' + doc.data().Nombre + '</H3><img src="blusa.jpeg" width="50px !important;" height="50px !important" alt=""/></div></a>');
+        $$('#divCategorias').append('<a href="/productos-muestra/' + doc.data().Nombre + '/"><div class="row col demo-col-center-content" style="height: 45%"><H3>' + doc.data().Nombre + '</H3><img src="blusa.jpeg" width="50px !important;" height="50px !important" alt=""/></div></a>');
       })
     })
     .catch(error => {
@@ -287,7 +290,7 @@ function listarCategorias() {
     })
 }
 // Funciones para mostrar productos por categoria
-$$(document).on('page:init', '.page[data-name="productos-muestra"]', function (e,page) {
+$$(document).on('page:init', '.page[data-name="productos-muestra"]', function (e, page) {
   MostrarProductosPorCategoria(page.route.params.categoria);
 })
 var filtroProducto = 'Vestidos';
@@ -299,14 +302,90 @@ function MostrarProductosPorCategoria(categoria) {
   var db = firebase.firestore();
   //db.collection("MisProductos").get()
   //db.collection("MisProductos").where("Categoria", "==", filtroProducto).get()
-  db.collection("MisProductos").where("Categoria","==",categoria).get()
+  db.collection("MisProductos").where("Categoria", "==", categoria).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
-        //console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);
-        var html = doc.data().Imagen + doc.data().Nombre + ' ' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p> <button class="col button button-fill">comprar</button></div>';
+        //console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);}
+        var html = '<a href="/muestraDetalleProducto/' + doc.id + '/">';
+        html += '<div style="border: 1px solid rgb(119, 136, 211); display:block;"><p>' + doc.data().Imagen + '</p><p>' + doc.data().Nombre + '</p><p>' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p> </div>';
+        html += '</a>';
         $$('#divProducts').append(html);
-
       });
+    })
+    .catch(function (error) { // .catch((error) => {
+      console.log("Error: " + error);
+    })
+}
+
+
+//funciones para mostrar producto
+$$(document).on('page:init', '.page[data-name="muestraDetalleProducto"]', function (e, page) {
+  console.log('muestraDetalleProducto');
+  verProducto(page.route.params.id);
+})
+
+function verProducto(id) {
+  console.log(id);
+  console.log('verProducto');
+  var db = firebase.firestore();
+  db.collection("MisProductos").doc(id).get()
+    .then(doc => {
+      var html = '';
+      var nombre = doc.data().Nombre;
+      html += '<div style="border: 1px solid rgb(119, 136, 211); display:block;">';
+      html += '   <p>' + doc.data().Imagen + '</p>';
+      html += '   <p>' + doc.data().Nombre + '</p>';
+      html += '   <p>' + doc.data().Descripcion + '</p>';
+      html += '   <p> $ ' + doc.data().Precio + '</p>';
+      html += '   <a href="/comprarDetalle/' + doc.id + '/" class="col button button-fill")>comprar</a>';
+      html += '</div>';
+      $$('#divProducto').append(html);
+    })
+    .catch(function (error) { // .catch((error) => {
+      console.log("Error: " + error);
+    })
+}
+
+// funciones para la compra
+$$(document).on('page:init', '.page[data-name="comprarDetalle"]', function (e, page) {
+  //productoMuestra
+  var db = firebase.firestore();
+  db.collection("MisProductos").doc(page.route.params.id).get()
+    .then(doc => {
+      var html = '';
+      var nombre = doc.data().Nombre;
+      html += '<div style="border: 1px solid rgb(119, 136, 211); display:block;">';
+      html += '   <p>' + doc.data().Imagen + '</p>';
+      html += '   <p>' + doc.data().Nombre + '</p>';
+      html += '   <p>' + doc.data().Descripcion + '</p>';
+      html += '   <p> $ ' + doc.data().Precio + '</p>';
+      html += '</div>';
+      $$('#productoMuestra').append(html);
+      localStorage.setItem("id", doc.id);
+      localStorage.setItem("precio", doc.data().Precio);
+      $$('#ventasubtotal').text('$ ' + doc.data().Precio);
+      $$('#ventatotal').text('$ ' + doc.data().Precio);
+    })
+    .catch(function (error) { // .catch((error) => {
+      console.log("Error: " + error);
+    })
+})
+
+function TerminarCompra() {
+
+  var db = firebase.firestore();
+  var id = localStorage.getItem("id");
+  var precio = localStorage.getItem("precio");
+
+  var venta = {
+    productoDocId: id,
+    precio: precio,
+    cantidad: "1",
+    total: precio,
+  };
+  db.collection("Ventas").add(venta)
+    .then(function (docRef) { // .then((docRef) => {
+      console.log("OK! Con el ID: " + docRef.id);
     })
     .catch(function (error) { // .catch((error) => {
       console.log("Error: " + error);
