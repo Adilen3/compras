@@ -113,10 +113,15 @@ h1 {
 .itemFlex {
     width: 25%;
     text-align: center;
+    padding-left: 0%;
+         
+    padding-inline: 2%;
 }
 
 .containerFlex
 {
     width: 100% !important;
     display: flex !important; flex-direction: row !important;
+
+    padding-top: 3%;
 }
