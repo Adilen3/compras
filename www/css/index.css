@@ -114,7 +114,6 @@ h1 {
     width: 25%;
     text-align: center;
     padding-left: 0%;
-         
     padding-inline: 2%;
 }
 
@@ -122,6 +121,20 @@ h1 {
 {
     width: 100% !important;
     display: flex !important; flex-direction: row !important;
-
     padding-top: 3%;
 }
+
+.success-msg {
+    color: #270;
+    /*background-color: #DFF2BF;*/
+  }
+
+  .warning-msg {
+    color: #9F6000;
+    /*background-color: #FEEFB3;*/
+  }
+
+  .error-msg {
+    color: #D8000C;
+    /*background-color: #FFBABA;*/
+  }

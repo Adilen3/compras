@@ -7,7 +7,7 @@
 
         <div class="login-screen-title">My App</div>
         <div class="block">
-            
+
             <div class="list no-hairlines-md">
                 <ul>
                     <li class="item-content item-input">
@@ -37,19 +37,26 @@
 
             </div>
 
+            <div>
+                <a class="button button-large button-fill button-preloader ${isLoading ? 'button-loading' : ''} color-lightblue"
+                    @click=${load}>
+                    <span class="preloader"></span>
+                    <span id="bingresa">INICIO DE SESION</span>
+                </a>
 
-            <a class="button button-large button-fill button-preloader ${isLoading ? 'button-loading' : ''} color-lightblue"
-                @click=${load}>
-                <span class="preloader"></span>
-                <span id="bingresa">INICIO DE SESION</span>
-            </a>
-
-            <p class="row">
-                <a href="/registrarse/" class="col button button-raised">registrarse</a>
-
-            </p>
-
+                <p class="row">
+                    <a href="/registrarse/" class="col button button-raised">registrarse</a>
+                </p>
+            </div>
+            <div>
+                <div class="list">
+                    <ul>
+                        <li>
+                            <span id="idalertloginuser" style="color: #dc3545;"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
