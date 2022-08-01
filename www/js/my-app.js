@@ -202,7 +202,6 @@ function fnRegistro() {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode + "--" + errorMessage);
-        // ..
       });
   }
   else {
@@ -306,9 +305,19 @@ function MostrarProductosPorCategoria(categoria) {
     .then(snapshot => {
       snapshot.forEach(doc => {
         //console.log(doc.data().Nombre + ' ' + doc.data().Descripcion);}
-        var html = '<a href="/muestraDetalleProducto/' + doc.id + '/">';
-        html += '<div style="border: 1px solid rgb(119, 136, 211); display:block;"><p>' + doc.data().Imagen + '</p><p>' + doc.data().Nombre + '</p><p>' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p> </div>';
-        html += '</a>';
+        var html = '';
+        html = '<a href="/muestraDetalleProducto/' + doc.id + '/">';
+        html += '     <div class="card demo-card-header-pic">';
+        html += '       <div>';
+        html += '         <div class="card-content card-content-padding">';
+        html += '           <p>' + doc.data().Nombre + '</p>';
+        html += '           <p>' + doc.data().Descripcion + '</p>';
+        html += '           <p> $ ' + doc.data().Precio + '</p>';
+        //html += '         <div style="background-image:url(https://cdn.framework7.io/placeholder/nature-1000x600-3.jpg)"class="card-header align-items-flex-end">Journey To Mountains</div>';
+        //html += '         <div style="border: 1px solid rgb(119, 136, 211); display:block;"><p style="color:black">' + doc.data().Imagen + '</p><p>' + doc.data().Nombre + '</p><p>' + doc.data().Descripcion + '</p><p> $ ' + doc.data().Precio + '</p> </div>';
+        html += '       </div>';
+        html += '     </div>';
+        html += '   </a>';
         $$('#divProducts').append(html);
       });
     })
