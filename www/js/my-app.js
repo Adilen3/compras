@@ -424,9 +424,13 @@ function TerminarCompra() {
   };
   db.collection("Ventas").add(venta)
     .then(function (docRef) { 
-      console.log("OK! Con el ID: " + docRef.id);
+      $$('#idalertcompra').text('Su pedido fue realizado con exito');
+      $$('#idalertcompra').attr('class', 'success-msg');
+      $$('#btnTerminarCompra').prop('disabled', true);
     })
     .catch(function (error) { 
       console.log("Error: " + error);
+      $$('#idalertcompra').text('Ocurrio un problema al procesar la compra');
+      $$('#idalertcompra').attr('class', 'error-msg');
     })
 }

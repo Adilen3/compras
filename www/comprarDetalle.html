@@ -1,20 +1,21 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
 <div class="page" data-name="comprarDetalle">
-    <div class="navbar">
-        <div class="navbar-inner sliding">
-            <div class="left">
-                <a href="#" class="link back">
-                    <i class="icon icon-back"></i>
-                    <span class="ios-only">Back</span>
-                </a>
-            </div>
-            <div class="title">About Framework7</div>
-        </div>
-    </div>
+    
     <div class="page-content">
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Back</span>
+                    </a>
+                </div>
+                <div class="title">About Framework7</div>
+            </div>
+        </div>
         <div class="block-title"></div>
         <div class="block block-strong" id="productoMuestra">
-            
+
         </div>
         <div class="block block-strong">
             <div class="row">
@@ -35,9 +36,16 @@
                 </h3>
             </div>
             <div class="row">
-                <button type="button" onclick="TerminarCompra()">
-                    Procesar Compra
-                </button>
+                <button id="btnTerminarCompra" type="button" onclick="TerminarCompra()">Procesar Compra</button>
+                <div>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <span id="idalertcompra"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
